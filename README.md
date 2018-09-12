@@ -8,6 +8,10 @@ Esta etapa visa o desenvolvimento de um **analisador léxico** que reconheça a 
 linguagem Mgol e será implementado em **C#**.
 Para tal:
 - Desenvolver um diagrama de estados de um autômato finito determinístico (AFD) que reconheça a linguagem regular expressa através da Tabela de simbolos.
+
+**Autômato finito determinístico**
+![alt text](https://uploaddeimagens.com.br/images/001/609/099/full/AFD.png?1536771609)
+
 - Implementar o AFD na forma de tabela de transições.
 - Desenvolver uma tabela de Símbolos, utilizar estrutura de dados para armazenar as palavras chave da linguagem e os identificadores reconhecidos pelo analisador léxico.
 - Desenvolver uma estrutura que, dados os símbolos de entrada e transições do AFD, caso não seja possível identificar o tipo de token, retorne na tela o tipo de erro léxico encontrado seguido dos números de linha e coluna do texto fonte onde o erro foi descoberto.
