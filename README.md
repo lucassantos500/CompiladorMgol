@@ -10,7 +10,7 @@ Para tal:
 - Desenvolver um diagrama de estados de um autômato finito determinístico (AFD) que reconheça a linguagem regular expressa através da Tabela de simbolos.
 
 **Autômato finito determinístico**
-![alt text](https://uploaddeimagens.com.br/images/001/609/099/full/AFD.png?1536771609)
+![alt text](https://uploaddeimagens.com.br/images/001/609/118/original/AFD.png?1536771895)
 
 - Implementar o AFD na forma de tabela de transições.
 - Desenvolver uma tabela de Símbolos, utilizar estrutura de dados para armazenar as palavras chave da linguagem e os identificadores reconhecidos pelo analisador léxico.
