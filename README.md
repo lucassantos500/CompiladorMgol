@@ -12,6 +12,12 @@ Para tal:
 **Autômato finito determinístico**
 ![alt text](https://uploaddeimagens.com.br/images/001/609/118/original/AFD.png?1536771895)
 
+**Legenda**
+
+| Estado          | q0     | q1       | q2        | q5         | q7      | q9         | q10 | q11 | q12 | q13 | q14 | q15 | q16  | q17  | q18  | q19 |
+|-----------------|--------|----------|-----------|------------|---------|------------|-----|-----|-----|-----|-----|-----|------|------|------|-----|
+| Token retornado | Inicio | num(int) | num(real) | num(cient) | literal | comentário | id  | OPR | RCB | OPR | OPR | OPM | AB_P | FC_P | PT_V | EOF |
+
 - Implementar o AFD na forma de tabela de transições.
 
 **Tabela de transição**
