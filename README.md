@@ -13,7 +13,55 @@ Para tal:
 ![alt text](https://uploaddeimagens.com.br/images/001/609/118/original/AFD.png?1536771895)
 
 - Implementar o AFD na forma de tabela de transições.
+
+**Tabela de transição**
+
+|       | q0  | q1 | q2 | q3 | q4 | q5 | q6 | q7 | q8 | q9 | q10 | q11 | q12 | q13 | q14 | q15 | q16 | q17 | q18 |
+|-------|-----|----|----|----|----|----|----|----|----|----|-----|-----|-----|-----|-----|-----|-----|-----|-----|
+| \n    | q0  |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| \t    | q0  |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| space | q0  |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| D     | q1  |    | q2 | q5 | q5 | q5 |    |    |    |    | q10 |     |     |     |     |     |     |     |     |
+| "     | q6  |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| L     | q10 |    |    |    |    |    |    |    |    |    | q10 |     |     |     |     |     |     |     |     |
+| {     | q8  |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| <     | q11 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| >     | q13 |    |    |    |    |    |    |    |    |    |     | q14 |     |     |     |     |     |     |     |
+| =     | q14 |    |    |    |    |    |    |    |    |    |     | q14 |     | q14 |     |     |     |     |     |
+| +     | q15 |    |    | q4 |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| -     | q15 |    |    |    |    |    |    |    |    |    |     | q12 |     |     |     |     |     |     |     |
+| *     | q15 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| /     | q15 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| (     | q16 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| )     | q17 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| ;     | q18 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| EOF   | q19 |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| .     |     | q2 |    |    |    |    | q6 |    | q8 |    |     |     |     |     |     |     |     |     |     |
+| E     |     | q3 | q3 |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| C     |     |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| "     |     |    |    |    |    |    | q7 |    |    |    |     |     |     |     |     |     |     |     |     |
+| -     |     |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
+| }     |     |    |    |    |    |    |    |    | q9 |    |     |     |     |     |     |     |     |     |     |
+
 - Desenvolver uma tabela de Símbolos, utilizar estrutura de dados para armazenar as palavras chave da linguagem e os identificadores reconhecidos pelo analisador léxico.
+
+**Palavras chaves**
+  
+| Token     | Significado                                  |
+|-----------|----------------------------------------------|
+| inicio    | Delimita o início do programa                |
+| varinicio | Delimita o início da declaração de variáveis |
+| varfim    | Delimita o fim da declaração de variáveis    |
+| escreva   | Imprime na saída padrão                      |
+| leia      | Lê da saída padrão                           |
+| se        | Estrutura condicional                        |
+| entao     | Elemento de estrutura condicional            |
+| fimse     | Elemento de estrutura condicional            |
+| fim       | Delimita o fim do programa                   |
+| inteiro   | Tipo de dado                                 |
+| lit       | Tipo de dado                                 |
+| real      | Tipo de dado                                 |
+
 - Desenvolver uma estrutura que, dados os símbolos de entrada e transições do AFD, caso não seja possível identificar o tipo de token, retorne na tela o tipo de erro léxico encontrado seguido dos números de linha e coluna do texto fonte onde o erro foi descoberto.
 
 **Tabela de tokens**
@@ -34,21 +82,5 @@ Para tal:
 | ERRO       | Qualquer coisa diferente de qualquer símbolo token e palavra-chave definida. |                                   | Token, descrição do erro, linha e coluna onde o erro ocorreu. |
   
   
-  **Palavras chaves**
   
-
-| Token     | Significado                                  |
-|-----------|----------------------------------------------|
-| inicio    | Delimita o início do programa                |
-| varinicio | Delimita o início da declaração de variáveis |
-| varfim    | Delimita o fim da declaração de variáveis    |
-| escreva   | Imprime na saída padrão                      |
-| leia      | Lê da saída padrão                           |
-| se        | Estrutura condicional                        |
-| entao     | Elemento de estrutura condicional            |
-| fimse     | Elemento de estrutura condicional            |
-| fim       | Delimita o fim do programa                   |
-| inteiro   | Tipo de dado                                 |
-| lit       | Tipo de dado                                 |
-| real      | Tipo de dado                                 |
   
