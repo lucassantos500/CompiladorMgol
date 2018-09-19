@@ -9,7 +9,7 @@ using Controle;
 
 namespace Tabelas
 {
-    class tabelaSimbolo
+    public class tabelaSimbolo
     {
         public static Hashtable tabelaS;
 
