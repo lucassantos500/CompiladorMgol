@@ -10,7 +10,7 @@ using Controle;
 
 namespace Analisador
 {
-    class analisadorLexico
+    public class analisadorLexico
     {
         public static int pos;
         public static int linhaerro = 1, colunaerro = 0;
@@ -75,12 +75,12 @@ namespace Analisador
 
             tabelaErros tabelahashe = new tabelaErros();
 
-            tabelahashe.addnatabela(1, "Identificador não permitido");
-            tabelahashe.addnatabela(16, "Constantes literais nao permitidas");
-            tabelahashe.addnatabela(18, "Erro de foramatacao de comentario (chaves)");
-            tabelahashe.addnatabela(21, "Constantes numericas nao permitidas");
-            tabelahashe.addnatabela(23, "Constantes numericas nao permitidas");
-            tabelahashe.addnatabela(24, "Constantes numericas nao permitidas");
+            tabelahashe.tabeladeerros.Add(1, "Identificador não permitido");
+            tabelahashe.tabeladeerros.Add(16, "Constantes literais nao permitidas");
+            tabelahashe.tabeladeerros.Add(18, "Erro de foramatacao de comentario (chaves)");
+            tabelahashe.tabeladeerros.Add(21, "Constantes numericas nao permitidas");
+            tabelahashe.tabeladeerros.Add(23, "Constantes numericas nao permitidas");
+            tabelahashe.tabeladeerros.Add(24, "Constantes numericas nao permitidas");
 
             try
             {
@@ -102,7 +102,7 @@ namespace Analisador
                     caracter = stream.Read();
                     int test = 0;
 
-                    for(int i = 0; i < 24; i++)
+                    for (int i = 0; i < 24; i++)
                     {
                         if (tabelaT[0, i].Elemento == caracter)
                         {
@@ -111,7 +111,7 @@ namespace Analisador
                         }
                     }
 
-                    if(test == 0 && caracter != 10 && caracter != 13 && caracter == 32)
+                    if (test == 0 && caracter != 10 && caracter != 13 && caracter == 32)
                     {
                         coluna = 17;
                     }
@@ -125,22 +125,166 @@ namespace Analisador
                     {
                         coluna = 18;
                     }
-                    
 
+                    if (char.IsDigit((char)caracter))
+                    {
+                        coluna = 1;
+                    }
 
+                    if (char.IsLetter((char)caracter))
+                    {
+                        coluna = 2;
+                    }
+
+                    if ((caracter == 69 || caracter == 101) && (estados.Peek() == 19 || estados.Peek() == 21))
+                    {
+                        coluna = 3;
+                    }
+
+                    for (int i = 0; i < 29; i++)
+                    {
+                        if (tabelaT[i, 0].Elemento == estados.Peek())
+                        {
+                            linha = i;
+                        }
+                    }
+
+                    estados.Push(tabelaT[linha, coluna].Elemento);
+
+                    if (tabelaT[linha, coluna].Elemento == 0)
+                    {
+                        if (tabelaSimbolo.tabelaS.ContainsKey(bffCaracter.ToString()) == true)
+                        {
+                            controleDadosSimbolos aux;
+                            aux = (controleDadosSimbolos)tabelaSimbolo.tabelaS[bffCaracter.ToString()];
+                            return aux;
+                        }
+                        else
+                        {
+                            controleDadosSimbolos simaux;
+                            estados.Pop();
+                            switch (estados.Peek())
+                            {
+                                case 1:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opr", " ");
+                                    return simaux;
+                                case 2:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opr", " ");
+                                    return simaux;
+                                case 3:
+                                    simaux = new controleDadosSimbolos("EOF", "EOF", " ");
+                                    return simaux;
+                                case 4:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opr", " ");
+                                    return simaux;
+                                case 5:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opr", " ");
+                                    return simaux;
+                                case 6:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "rcb", " ");
+                                    return simaux;
+                                case 7:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opr", " ");
+                                    return simaux;
+                                case 8:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "pt_v", " ");
+                                    return simaux;
+                                case 9:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "ab_p", " ");
+                                    return simaux;
+                                case 10:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "fc_p", " ");
+                                    return simaux;
+                                case 11:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opm", " ");
+                                    return simaux;
+                                case 12:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opm", " ");
+                                    return simaux;
+                                case 13:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opm", " ");
+                                    return simaux;
+                                case 14:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opm", " ");
+                                    return simaux;
+                                case 26:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "opm", " ");
+                                    return simaux;
+                                case 16:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "literal", "literal");
+                                    return simaux;
+                                case 18:
+                                    Console.WriteLine("Comentario " + bffCaracter);
+                                    break;
+                                case 19:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "num", "inteiro");
+                                    return simaux;
+                                case 21:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "num", "real");
+                                    return simaux;
+                                case 24:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "num", "real");
+                                    return simaux;
+                                case 25:
+                                    simaux = new controleDadosSimbolos(bffCaracter.ToString(), "id", " ");
+                                    tabelaSimbolo.tabelaS.Add(simaux.Lexema, simaux);
+                                    return simaux;
+                                default:
+                                    Console.WriteLine("Erro na leitura da pilha ou formato do comentário errado!");
+                                    Console.WriteLine("\nLinha" + linhaerro + " Coluna " + colunaerro);
+                                    erro = 1;
+                                    break;
+                            }
+                        }
+
+                        estados.Clear();
+                        estados.Push(tabelaT[1, coluna].Elemento);
+                        bffCaracter.Remove(0, bffCaracter.Length);
+                    }
+
+                    if(tabelaT[linha,coluna].Elemento == 132)
+                    {
+                        Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[linha]);
+                        Console.WriteLine("\nlinha na tabela: " + linha + " Coluna: " + coluna);
+                        Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);
+
+                        erro = 1;
+                        controleDadosSimbolos simerro = new controleDadosSimbolos("ERRO", "ERRO", " ");
+                        return simerro;
+                    }
+
+                    if (caracter != 10 && caracter != 13 && caracter != 32)
+                    {
+                        bffCaracter.Append((char) caracter);
+                    }
+
+                    pos++;
+
+                    if(caracter == 13)
+                    {
+                        linhaerro++;
+                        colunaerro = 0;
+                    }
+                    else
+                    {
+                        colunaerro++;
+                    }
                 }
-                
-                
 
-                
+                stream.Close();
+                lerArquivo.Close();
+
             } catch (Exception e)
             {
-                //erro de abertura de arquivo
+                Console.Error.WriteLine("Erro na abertura do arquivo: %s.\n", e);
             }
-
             return null;
+           
         }
 
-       
+       public static void getLinhaeColuna()
+        {
+            Console.WriteLine("Linha: " + linhaerro + " Coluna" + colunaerro);
+        }
     }
 }
