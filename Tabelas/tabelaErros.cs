@@ -13,12 +13,13 @@ namespace Tabelas
 
         public tabelaErros()
         {
+            this.tabeladeerros = new Hashtable();
         }
-
+        /*
         public void addnatabela(int cod, String texto)
         {
-            tabeladeerros.Add(cod, texto);
-        }
 
+        }
+        */
     }
 }
