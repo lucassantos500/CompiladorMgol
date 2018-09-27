@@ -1,9 +1,19 @@
 # CompiladorMgol
 Este repositório tem como objetivo o desenvolvimento de um compilador que recebe como entrada um arquivo fonte em uma linguagem Mgol, realiza a fase de análise e síntese gerando um arquivo objeto em linguagem C. O arquivo final deverá ser compilável em compilador C, ou seja, o código gerado deverá estar completo para compilação e execução.
 
+| Índice                                                                 |
+|------------------------------------------------------------------------|
+| [Analisador Léxico](../master/Analisador/analisadorLexico.cs)          |
+| [Controle Dados/Símbolos](../master/Controle/controleDadosSimbolos.cs) |
+| [Tabela de Erros](../master/Tabelas/tabelaErros.cs)                    |
+| [Tabela de Símbolos](../master/Tabelas/tabelaSimbolo.cs)               |
+| [Tabela de Transição](.../master/Tabelas/tabelaTransicao.cs)           |
+
+
 O desenvolvimento será composto por **três etapas**:
 
 # Etapa 1 - Analisador Léxico
+
 Esta etapa visa o desenvolvimento de um **analisador léxico** que reconheça a tabela de tokens disponíveis para a
 linguagem Mgol e será implementado em **C#**.
 Para tal:
