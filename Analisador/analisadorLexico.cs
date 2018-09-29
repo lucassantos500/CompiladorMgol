@@ -96,11 +96,20 @@ namespace Analisador
                 tam = stream.BaseStream.Length;
 
                 estados.Push(tabelaT[linha, coluna].Elemento);
-
+                //
+                //Console.WriteLine("\nTabela de Transição, linha " + linha + " coluna " + coluna + " é " + tabelaT[linha, coluna].Elemento);
+                //
                 while (pos <= tam || erro == 0)
                 {
+                    //
+                    //Console.WriteLine("\nTamanho: " + tam + " Posição: " + pos);
+                    //
                     caracter = stream.Read();
                     int test = 0;
+
+                    //
+                    //Console.WriteLine("\nCaracter em ascII: " + caracter + " Caracter: " + (char)caracter);
+                    //
 
                     for (int i = 0; i < 24; i++)
                     {
@@ -111,35 +120,75 @@ namespace Analisador
                         }
                     }
 
+                    //
+                    //Console.WriteLine("\nColuna do caracter: " + coluna + " Teste: " + test);
+                    //
+
                     if (test == 0 && caracter != 10 && caracter != 13 && caracter == 32)
                     {
                         coluna = 17;
+                        //
+                        //Console.WriteLine("\n1 if Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
                     }
 
                     if (test == 0 && (caracter == 10 || caracter == 13 || caracter == 32))
                     {
                         coluna = 19;
+                        //
+                        //Console.WriteLine("\n2 if Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
                     }
 
                     if (caracter == -1)
                     {
                         coluna = 18;
+                        //
+                        //Console.WriteLine("\n3 if Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
                     }
 
                     if (char.IsDigit((char)caracter))
                     {
                         coluna = 1;
+                        //
+                        //Console.WriteLine("\nÉ digito Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
+                    }
+
+                    /*
+                    //tratar o espaço no literal
+                    if(coluna == 21 && caracter == 32)
+                    {
+                        bffCaracter.Append((char)caracter);
+                    }
+                    //
+                    */
+
+                    //para o /
+                    if (caracter == 92)
+                    {
+                        coluna = 2;
                     }
 
                     if (char.IsLetter((char)caracter))
                     {
                         coluna = 2;
+                        //
+                        //Console.WriteLine("\nÉ letra Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
                     }
 
                     if ((caracter == 69 || caracter == 101) && (estados.Peek() == 19 || estados.Peek() == 21))
                     {
                         coluna = 3;
+                        //
+                        //Console.WriteLine("\n4 if Coluna do caracter: " + coluna + " Teste: " + test);
+                        //
                     }
+                    //
+                    //Console.WriteLine("\nCabeça da pilha:" + estados.Peek());
+                    //
 
                     for (int i = 0; i < 29; i++)
                     {
@@ -148,11 +197,21 @@ namespace Analisador
                             linha = i;
                         }
                     }
+                    //
+                    //Console.WriteLine("\nLinha: " + linha);
+                    //
 
                     estados.Push(tabelaT[linha, coluna].Elemento);
 
+                    //
+                    //Console.WriteLine("\nEstado: " + estados.Peek());
+                    //
+                    
                     if (tabelaT[linha, coluna].Elemento == 0)
                     {
+                        //
+                        //Console.WriteLine("\nBuffer: "+bffCaracter.ToString());
+                        //
                         if (tabelaSimbolo.tabelaS.ContainsKey(bffCaracter.ToString()) == true)
                         {
                             controleDadosSimbolos aux;
@@ -257,6 +316,10 @@ namespace Analisador
                     {
                         bffCaracter.Append((char) caracter);
                     }
+
+                    //
+                    //Console.WriteLine("\nBuffer: " + bffCaracter.ToString());
+                    //
 
                     pos++;
 
