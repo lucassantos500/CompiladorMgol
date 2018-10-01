@@ -12,7 +12,7 @@ namespace Analisador
 {
     public class analisadorLexico
     {
-        public static int pos;
+        public static int pos = 0,IniVar = 0, FimVar = 1, erroCaracter = 0, vezVar = 0;
         public static int linhaerro = 1, colunaerro = 0;
         public static int erro = 0;
 
@@ -44,7 +44,7 @@ namespace Analisador
                      16,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
                      17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 132, 17, 18,132, 17, 17, 17, 17, 17,
                      18,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-                     19, 19,  0, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 20,  0,
+                     19, 19,  132, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 20,  0,
                      20, 21,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
                      21, 21,  0, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
                      22, 24,132,132, 23, 23,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
@@ -78,6 +78,7 @@ namespace Analisador
             tabelahashe.tabeladeerros.Add(1, "Identificador não permitido");
             tabelahashe.tabeladeerros.Add(16, "Constantes literais nao permitidas");
             tabelahashe.tabeladeerros.Add(18, "Erro de foramatacao de comentario (chaves)");
+            tabelahashe.tabeladeerros.Add(20, "Erro na notação científica, um e|E era esperado");
             tabelahashe.tabeladeerros.Add(21, "Constantes numericas nao permitidas");
             tabelahashe.tabeladeerros.Add(23, "Constantes numericas nao permitidas");
             tabelahashe.tabeladeerros.Add(24, "Constantes numericas nao permitidas");
@@ -101,6 +102,7 @@ namespace Analisador
                 //
                 while (pos <= tam || erro == 0)
                 {
+                   
                     //
                     //Console.WriteLine("\nTamanho: " + tam + " Posição: " + pos);
                     //
@@ -150,6 +152,19 @@ namespace Analisador
 
                     if (char.IsDigit((char)caracter))
                     {
+                        //
+                        if(IniVar == 1)
+                        {
+                            Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[1]);
+                            Console.WriteLine("\nCaracter inesperado: " + (char)caracter);
+                            Console.WriteLine("\nlinha na tabela: " + linha + " Coluna: " + coluna);
+                            Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);
+
+                            erro = 1;
+                            controleDadosSimbolos simerro = new controleDadosSimbolos("ERRO", "ERRO", " ");
+                            return simerro;
+                        }
+                        //
                         coluna = 1;
                         //
                         //Console.WriteLine("\nÉ digito Coluna do caracter: " + coluna + " Teste: " + test);
@@ -166,7 +181,7 @@ namespace Analisador
                     
 
                     //para o /
-                    if (caracter == 92)
+                    if (caracter == 92 && estados.Peek() == 15)
                     {
                         coluna = 2;
                     }
@@ -186,6 +201,7 @@ namespace Analisador
                         //Console.WriteLine("\n4 if Coluna do caracter: " + coluna + " Teste: " + test);
                         //
                     }
+                    
                     //
                     //Console.WriteLine("\nCabeça da pilha:" + estados.Peek());
                     //
@@ -216,6 +232,19 @@ namespace Analisador
                         {
                             controleDadosSimbolos aux;
                             aux = (controleDadosSimbolos)tabelaSimbolo.tabelaS[bffCaracter.ToString()];
+                            //
+                            if(aux.Token == "varinicio")
+                            {
+                                IniVar = 1;
+                                FimVar = 0;
+                                return aux;
+                            }else if(aux.Token == "varfim")
+                            {
+                                IniVar = 0;
+                                FimVar = 1;
+                                return aux;
+                            }
+                            //
                             return aux;
                         }
                         else
@@ -303,7 +332,9 @@ namespace Analisador
 
                     if(tabelaT[linha,coluna].Elemento == 132)
                     {
+                        erroCaracter = caracter;
                         Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[linha]);
+                        Console.WriteLine("\nCaracter inesperado: " + (char)caracter);
                         Console.WriteLine("\nlinha na tabela: " + linha + " Coluna: " + coluna);
                         Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);
 
