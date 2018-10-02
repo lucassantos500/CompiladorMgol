@@ -59,6 +59,10 @@ Para tal:
 | -     |     |    |    |    |    |    |    |    |    |    |     |     |     |     |     |     |     |     |     |
 | }     |     |    |    |    |    |    |    |    | q9 |    |     |     |     |     |     |     |     |     |     |
 
+A tabela de transição foi representada no analisador léxico utilizando uma matriz com 29 colunas e 24 linhas e os símbolos foram representando utilizando a [Tabela ASCII](https://upload.wikimedia.org/wikipedia/commons/d/dd/ASCII-Table.svg).
+
+
+
 - Desenvolver uma tabela de Símbolos, utilizar estrutura de dados para armazenar as palavras chave da linguagem e os identificadores reconhecidos pelo analisador léxico.
 
 **Palavras chaves**
