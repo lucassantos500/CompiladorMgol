@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections;
 
 using Controle;
+//Classe que representa a tabela de símbolos
 
 namespace Tabelas
 {
@@ -13,6 +14,7 @@ namespace Tabelas
     {
         public static Hashtable tabelaS;
 
+        //Função que carrega os tokens iniciais na tabela de símbolos
         public static void startTabelaSimbolos()
         {
             tabelaSimbolo.tabelaS = new Hashtable();

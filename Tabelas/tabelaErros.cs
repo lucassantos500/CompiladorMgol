@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
+//Classe que representa a tabela de erros
+
 
 namespace Tabelas
 {
@@ -15,11 +17,5 @@ namespace Tabelas
         {
             this.tabeladeerros = new Hashtable();
         }
-        /*
-        public void addnatabela(int cod, String texto)
-        {
-
-        }
-        */
     }
 }
