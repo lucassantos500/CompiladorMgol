@@ -12,74 +12,107 @@ namespace Analisador
 {
     public class analisadorLexico
     {
-        public static int pos = 0,IniVar = 0, FimVar = 1, vezVar = 0, erro = 0, linhaerro = 1, colunaerro = 0;
+        public static int pos = 0, erro = 0, linhaerro = 1, colunaerro = 0;
+        //public static tabelaSimbolo tabelahash;
+        public static Dictionary<string, controleDadosSimbolos> tabelaSimbolo = new Dictionary<string, controleDadosSimbolos>();
+
         //pos = Posição que a leitura esta sendo feita
-        //IniVar e FimVar = Bloco de inicialização de variável para controle de ID
         //linhaerro, colunaerro = Linha e coluna que ocorreu o erro
         //erro = Se ocorreu erro ou não
+
+        public static void Preencher_analisadorLexico()
+        {
+            controleDadosSimbolos sim1 = new controleDadosSimbolos("inicio", "inicio", " ");
+            tabelaSimbolo.Add("inicio", sim1);
+            //tabeladesimbolos.Add("inicio", sim1);
+            controleDadosSimbolos sim2 = new controleDadosSimbolos("varinicio", "varinicio", " ");
+            tabelaSimbolo.Add("varinicio", sim2);
+            //tabelahash.tabeladesimbolos.Add("varinicio", sim2);
+            controleDadosSimbolos sim3 = new controleDadosSimbolos("varfim", "varfim", " ");
+            tabelaSimbolo.Add("varfim", sim3);
+            //tabelahash.tabeladesimbolos.Add("varfim", sim3);
+            controleDadosSimbolos sim4 = new controleDadosSimbolos("escreva", "escreva", " ");
+            tabelaSimbolo.Add("escreva", sim4);
+            //tabelahash.tabeladesimbolos.Add("escreva", sim4);
+            controleDadosSimbolos sim5 = new controleDadosSimbolos("leia", "leia", " ");
+            tabelaSimbolo.Add("leia", sim5);
+            //tabelahash.tabeladesimbolos.Add("leia", sim5);
+            controleDadosSimbolos sim6 = new controleDadosSimbolos("se", "se", " ");
+            tabelaSimbolo.Add("se", sim6);
+            //tabelahash.tabeladesimbolos.Add("se", sim6);
+            controleDadosSimbolos sim7 = new controleDadosSimbolos("entao", "entao", " ");
+            tabelaSimbolo.Add("entao", sim7);
+            //tabelahash.tabeladesimbolos.Add("entao", sim7);
+            controleDadosSimbolos sim8 = new controleDadosSimbolos("fimse", "fimse", " ");
+            tabelaSimbolo.Add("fimse", sim8);
+            //tabelahash.tabeladesimbolos.Add("fimse", sim8);
+            controleDadosSimbolos sim9 = new controleDadosSimbolos("fim", "fim", " ");
+            tabelaSimbolo.Add("fim", sim9);
+            //tabelahash.tabeladesimbolos.Add("fim", sim9);
+            controleDadosSimbolos sim10 = new controleDadosSimbolos("inteiro", "inteiro", " ");
+            tabelaSimbolo.Add("inteiro", sim10);
+            //tabelahash.tabeladesimbolos.Add("inteiro", sim10);
+            controleDadosSimbolos sim11 = new controleDadosSimbolos("literal", "literal", " ");
+            tabelaSimbolo.Add("literal", sim11);
+            //tabelahash.tabeladesimbolos.Add("literal", sim11);
+            controleDadosSimbolos sim12 = new controleDadosSimbolos("real", "real", " ");
+            tabelaSimbolo.Add("real", sim12);
+            //tabelahash.tabeladesimbolos.Add("real", sim12);
+        }
 
         public static controleDadosSimbolos getLex(int Posi) //Função que lê um arquivo, acha lexemas, insere na tabela e retorna o lexema
         {
             pos = Posi; //Atualização da posição da leitura
             long tam; //Tamanho da Stream
 
-            int []S = {128,  1,  0, 69, 43, 45, 42, 47, 62, 60, 61, 40, 41, 59, 34,129,123,125,130, 10, 32, 32, 46, 95,
-                       131, 19, 25,132, 11, 12, 13, 14,  4,  1, 26,  9, 10,  8, 15,132, 17,132,  3,131,131,131,132,132,
-                         1,  0,  0,  0,  0,  6,  0,  0,  7,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPR
-                         2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPR
-                         3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//EOF
-                         4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPR
-                         5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPR
-                         6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//RCB
-                         7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPR
-                         8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//PT_V
-                         9,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//AB_P
-                        10,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//FC_P
-                        11,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPM
-                        12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPM
-                        13,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPM
-                        14,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPM
-                        15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 132, 15, 15,132, 15, 15, 15, 15, 15,//LITERAL
-                        16,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//LITERAL
-                        17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 132, 17, 18,132, 17, 17, 17, 17, 17,
-                        18,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//COMENTARIO
-                        19, 19,  132, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 20,  0,//INTEIRO
-                        20, 21,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,//CIENTIFICO
-                        21, 21,  0, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//REAL
-                        22, 24,132,132, 23, 23,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
-                        23, 24,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
-                        24, 24,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//REAL
-                        25, 25, 25,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 25,//ID
-                        26,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,//OPM
-                       132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132};
-                        //Legenda : 1° Linha = tabela ascII referenciando os caracteres
-                        //          1° Coluna = Estados referenciando o AFD da linguagem
-                        //128 = Vertice da tabela, 130 = EOF, 131 = Estado inicial, 132 = Erros
+            int[] S = {128,  1,  0, 69, 43, 45, 42, 47, 62, 60, 61, 40, 41, 59, 34,129,123,125,130, 10, 32, 32, 46, 95,
+                    131, 19, 25,132, 11, 12, 13, 14,  4,  1, 26,  9, 10,  8, 15,132, 17,132,  3,131,131,131,132,132,
+                      1,  0,  0,  0,  0,  6,  0,  0,  7,  0,  2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      2,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      3,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      4,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      5,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      7,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      8,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                      9,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     10,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     11,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     12,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     13,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     14,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 16, 132, 15, 15,132, 15, 15, 15, 15, 15,
+                     16,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 132, 17, 18,132, 17, 17, 17, 17, 17,
+                     18,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     19, 19,  0, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 20,  0,
+                     20, 21,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
+                     21, 21,  0, 22,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     22, 24,132,132, 23, 23,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
+                     23, 24,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,
+                     24, 24,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                     25, 25, 25,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0, 25,
+                     26,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+                    132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132,132};
 
             Stack<int> estados = new Stack<int>();//Pilha dos estados da tabela
-            tabelaTransicao[,] tabelaT = new tabelaTransicao[29,24];//Tabela de transição
+            tabelaTransicao[,] tabelaT = new tabelaTransicao[29, 24];//Tabela de transição
 
             int t = 0;                                                  //
             for (int i = 0; i < 29; i++)                               //
             {                                                         //
-                for(int j = 0; j < 24; j++)                          //
+                for (int j = 0; j < 24; j++)                          //
                 {                                                   //Adicionando o vetor S a tabela de transição
                     tabelaT[i, j] = new tabelaTransicao(S[t]);     //
                     t++;                                          //
                 }                                                //
             }                                                   //
-            
-            if(pos == 0)//Se for a primeira letra do texto
-            {
-                tabelaSimbolo.startTabelaSimbolos();//Carregar a tabela de simbolos com os valores iniciais
-            }
 
             tabelaErros tabelahashe = new tabelaErros();//Tabela de erros simples
 
             tabelahashe.tabeladeerros.Add(1, "Identificador não permitido");                           //
             tabelahashe.tabeladeerros.Add(16, "Constantes literais nao permitidas");                  //
             tabelahashe.tabeladeerros.Add(18, "Erro de foramatacao de comentario (chaves)");         //
-            tabelahashe.tabeladeerros.Add(20, "Erro na notação científica, um e|E era esperado");   //Erros
             tabelahashe.tabeladeerros.Add(21, "Constantes numericas nao permitidas");              //
             tabelahashe.tabeladeerros.Add(23, "Constantes numericas nao permitidas");             //
             tabelahashe.tabeladeerros.Add(24, "Constantes numericas nao permitidas");            //
@@ -88,7 +121,7 @@ namespace Analisador
             try
             {
                 StringBuilder bffCaracter = new StringBuilder();//Criando o buffer de caracteres
-                StreamReader stream = File.OpenText("C:\\Users\\lucas\\Desktop\\Compilador\\texto.txt");//Abrindo o arquivo (Mudar caso necessário)
+                StreamReader stream = File.OpenText("C:\\Users\\lucas\\Desktop\\Compilador\\FONTE.ALG");//Abrindo o arquivo (Mudar caso necessário)
 
                 int caracter = 0, linha = 1, coluna = 0;//Caracter = caracter atual
                 stream.BaseStream.Position = pos;//Setando a leitura do arquivo para a posição necessária
@@ -108,8 +141,8 @@ namespace Analisador
                             test = 1;                          //
                         }                                     //
                     }                                        //
-                    //Caso o caracter não esteja na tabela
-                    
+                                                             //Caso o caracter não esteja na tabela
+
                     if (test == 0 && caracter != 10 && caracter != 13 && caracter == 32)//Coloque ele na coluna que representa a coluna dos outros caracteres
                     {
                         coluna = 17;
@@ -127,25 +160,14 @@ namespace Analisador
 
                     if (char.IsDigit((char)caracter))//Verifico se o caracter é digido
                     {
-                        
-                        if(IniVar == 1 && estados.Peek() == 131)//Verificando se o primeiro caracter do ID é digido, se for retorne erro
-                        {
-                            Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[1]);              //
-                            Console.WriteLine("\nCaracter inesperado: " + (char)caracter);                      //
-                            Console.WriteLine("\nlinha na tabela: " + linha + " Coluna: " + coluna);           //
-                            Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);            //Retornando o erro
-                            erro = 1;                                                                        //
-                            controleDadosSimbolos simerro = new controleDadosSimbolos("ERRO", "ERRO", " "); //
-                            return simerro;                                                                //
-                        }
-                        
                         coluna = 1;
                     }
+
                     //Tratando o problema do espaço no literal
-                    if(coluna == 21 && caracter == 32 && estados.Peek() == 15)//Se for espaço e o estado atual é literal não ignore
+                    if (coluna == 21 && caracter == 32 && estados.Peek() == 15)//Se for espaço e o estado atual é literal não ignore
                     {
                         bffCaracter.Append((char)caracter);
-                    }       
+                    }
 
                     //tratando o problema do \n
                     if (caracter == 92 && estados.Peek() == 15)//Se for \n e o estado atual é de literal não ignore
@@ -177,23 +199,12 @@ namespace Analisador
                     //Verificando se o estado atual é vazio ou de erro
                     if (tabelaT[linha, coluna].Elemento == 0)//Caso seja o fim de um lexema
                     {
-                        if (tabelaSimbolo.tabelaS.ContainsKey(bffCaracter.ToString()) == true)//Verifica se este lexema já esta na tabela
+                        if(tabelaSimbolo.ContainsKey(bffCaracter.ToString()))
+                        //if (tabelahash.tabeladesimbolos.ContainsKey(bffCaracter.ToString()) == true)//Verifica se este lexema já esta na tabela
                         {
                             controleDadosSimbolos aux;
-                            aux = (controleDadosSimbolos)tabelaSimbolo.tabelaS[bffCaracter.ToString()];
-                            
-                            if(aux.Token == "varinicio")
-                            {
-                                IniVar = 1;
-                                FimVar = 0;
-                                return aux;
-                            }else if(aux.Token == "varfim")
-                            {
-                                IniVar = 0;
-                                FimVar = 1;
-                                return aux;
-                            }
-                           
+                            //aux = (controleDadosSimbolos)tabelahash.tabeladesimbolos[bffCaracter.ToString()];
+                            aux = tabelaSimbolo[bffCaracter.ToString()];
                             return aux;//Se já estiver na tabela retorne ele
                         }
                         else//Caso não esteja na tabela - Buscar qual token este estado pertence
@@ -264,7 +275,8 @@ namespace Analisador
                                     return simaux;
                                 case 25:
                                     simaux = new controleDadosSimbolos(bffCaracter.ToString(), "id", " ");
-                                    tabelaSimbolo.tabelaS.Add(simaux.Lexema, simaux);
+                                    tabelaSimbolo.Add(simaux.Lexema, simaux);
+
                                     return simaux;
                                 default:
                                     Console.WriteLine("Erro na leitura da pilha ou formato do comentário errado!");
@@ -273,17 +285,16 @@ namespace Analisador
                                     break;
                             }
                         }
-                        
+
                         estados.Clear();//Limpar a tabela de estados após 
                         estados.Push(tabelaT[1, coluna].Elemento);//Adiciona o estado inicial
                         bffCaracter.Remove(0, bffCaracter.Length);//E limpa o buffer
                     }
 
-                    if(tabelaT[linha,coluna].Elemento == 132)//Caso o estado atual seja de erro
+                    if (tabelaT[linha, coluna].Elemento == 132)//Caso o estado atual seja de erro
                     {
-                        
-                        Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[linha]);         //
-                        Console.WriteLine("\nCaracter inesperado: " + (char)caracter);                     //
+
+                        Console.WriteLine("ERRO ENCONTRADO - " + tabelahashe.tabeladeerros[linha]);        //
                         Console.WriteLine("\nlinha na tabela: " + linha + " Coluna: " + coluna);          //
                         Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);           //Retornando o erro
                         erro = 1;                                                                       //
@@ -293,13 +304,13 @@ namespace Analisador
 
                     //Caso o caracter atual não seja espaço, tab ou quebra linha guarde ele no buffer
                     if (caracter != 10 && caracter != 13 && caracter != 32)
-                    {                                           
-                        bffCaracter.Append((char) caracter);
+                    {
+                        bffCaracter.Append((char)caracter);
                     }
 
                     pos++; //Avança a posição
 
-                    if(caracter == 13)
+                    if (caracter == 13)
                     {
                         linhaerro++;
                         colunaerro = 0;
@@ -312,12 +323,42 @@ namespace Analisador
 
                 stream.Close();
 
-            } catch (Exception e)//Caso não consiga abrir o arquivo
+            }
+            catch (Exception e)//Caso não consiga abrir o arquivo
             {
                 Console.Error.WriteLine("Erro na abertura do arquivo:" + e + "\n");//retorne o erro
             }
             return null;
-           
+
         }
+
+        public static void getLinhaColuna()
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("\nLinha: " + linhaerro + " Coluna: " + colunaerro);
+            Console.ResetColor();
+        }
+
+        public static void att_tipo(string id, string tipo)
+        {
+          
+            tabelaSimbolo[id].Tipo = tipo;
+            
+        }
+
+
+        public static bool existe(string lexema)
+        {
+            if(tabelaSimbolo.ContainsKey(lexema))
+            {
+
+                if (tabelaSimbolo[lexema].Tipo != " ")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
     }
 }
