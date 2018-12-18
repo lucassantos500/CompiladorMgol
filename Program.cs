@@ -15,6 +15,7 @@ namespace CompiladorMgol
     {
         static void Main(string[] args)
         {
+            /*
             controleDadosSimbolos simb;
             do
             {
@@ -24,6 +25,9 @@ namespace CompiladorMgol
                 
             } while (simb.Lexema != "EOF" && simb.Lexema != "ERRO");
             Console.ReadKey();//Pausando para leitura
+            */
+            analisadorSintatico.getSintatico();
+            Console.ReadKey();
         }
     }
 }
